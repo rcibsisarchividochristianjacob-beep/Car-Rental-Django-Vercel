@@ -1,0 +1,108 @@
+{% extends 'car_dealer/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Modals Base Style para magmatch sa ginawa natin kanina */
+  #customConfirmModal, #statusModal { 
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.7); 
+    backdrop-filter: blur(4px); 
+  }
+  .modal-content { 
+    background-color: #fff; 
+    margin: 15% auto; 
+    padding: 25px; 
+    border-radius: 12px; 
+    width: 90%; 
+    max-width: 400px; 
+    color: #333; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+    text-align: center;
+  }
+  .btn-confirm { background-color: #4f46e5; border: none; padding: 10px 20px; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; transition: 0.3s; flex: 1; }
+  .btn-confirm:hover { background-color: #4338ca; transform: scale(1.05); }
+  .btn-cancel { flex: 1; background: #94a3b8; border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: 600; padding: 10px 20px; }
+</style>
+
+<div class="main-content" style="max-width:500px; margin:40px auto; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius:15px; padding:20px; box-shadow:0 8px 32px rgba(0,0,0,0.1);">
+
+  <span class="close" onclick="window.history.back();" style="float:right; cursor:pointer; font-size:20px; color: #000;">&times;</span>
+  <h3 style="text-align:center; color:#000000; margin-bottom:20px;">Edit Vehicle</h3>
+  
+  <form id="editVehicleForm" method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:10px;">
+    {% csrf_token %}
+    <input type="text" name="car_name" placeholder="Car Name" value="{{ vehicle.car_name }}" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <input type="text" name="color" placeholder="Color" value="{{ vehicle.color }}" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <input type="text" name="capacity" placeholder="Capacity (e.g. 4)" value="{{ vehicle.capacity }}" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <input type="text" name="city" placeholder="City" value="{{ vehicle.area.city|title }}" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <input type="text" name="pincode" placeholder="Pincode" value="{{ vehicle.area.pincode }}" maxlength="6" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <input type="number" name="price_per_day" placeholder="Price per Day (₱)" value="{{ vehicle.price_per_day }}" required style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+    <textarea name="description" placeholder="Vehicle Description" rows="3" style="padding:10px; border-radius:8px; border:1px solid #ccc;">{{ vehicle.description }}</textarea>
+
+    <label style="margin-top:5px; color: #000;">Current Image:</label>
+    {% if vehicle.image %}
+      <img src="{{ vehicle.image.url }}" alt="{{ vehicle.car_name }}" style="width:100%; height:auto; border-radius:8px; margin-bottom:10px;">
+    {% else %}
+      <p style="color: #000;">No image uploaded.</p>
+    {% endif %}
+
+    <input type="file" name="image" accept="image/*" style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+
+    <input type="submit" value="Save Changes" class="rent-btn" style="width:100%; background:#4f46e5; color:white; margin-top:10px; border:none; cursor:pointer; padding: 12px; border-radius: 8px; font-weight: bold;">
+  </form>
+</div>
+
+<div id="customConfirmModal">
+    <div class="modal-content">
+        <h4 style="margin-top:0; color:#283e51;">Confirm Edit</h4>
+        <p style="font-size: 14px; color: #555;">Do you want to save your edit changes?</p>
+        <div style="margin-top:25px; display:flex; gap:10px;">
+            <button id="confirmYesBtn" class="btn-confirm">Yes, Save</button>
+            <button id="confirmNoBtn" class="btn-cancel">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="statusModal">
+    <div class="modal-content">
+        <div style="font-size: 40px; margin-bottom: 10px;">✔️</div>
+        <h4 style="margin-top:0; color:#16a34a;">Success</h4>
+        <p style="font-size: 14px; color: #555;">Successfully saved the edit changes!</p>
+    </div>
+</div>
+
+<script>
+  const form = document.getElementById('editVehicleForm');
+  const confirmModal = document.getElementById('customConfirmModal');
+  const statusModal = document.getElementById('statusModal');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // stop submit muna
+    confirmModal.style.display = 'block'; // ipakita ang UI modal
+  });
+
+  document.getElementById('confirmNoBtn').onclick = function() {
+    confirmModal.style.display = 'none';
+  };
+
+  document.getElementById('confirmYesBtn').onclick = function() {
+    confirmModal.style.display = 'none';
+    
+    // Ipakita ang Success UI
+    statusModal.style.display = 'block';
+    
+    // Hintayin ang 1.5 seconds bago i-submit ang form
+    setTimeout(() => {
+        form.submit();
+    }, 1500);
+  };
+</script>
+
+{% endblock %}

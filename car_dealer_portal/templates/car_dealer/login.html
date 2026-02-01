@@ -1,0 +1,579 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+
+  #user-icon {
+    width: 160px !important;
+    height: 160px !important;
+    margin-bottom: 25px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+     html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      background: 
+        linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+        url("{% static 'images/background.png' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+   .header {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 25px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      animation: floatIn 0.8s ease-out;
+    }
+
+ .sub-header {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      padding: 12px;
+      text-align: center;
+      color: #f1f1f1;
+      font-size: 18px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
+
+    .card {
+     background: rgba(255, 255, 255, 0.788);
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      width: 280px;
+      padding: 40px 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #283e51;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #1a252f;
+    }
+
+      nav.navbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 50px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s;
+}
+
+nav.navbar .nav-left .logo {
+  height: 85px; 
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+nav.navbar .nav-left .logo:hover {
+  transform: scale(1.05); /* optional hover effect */
+}
+
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.nav-center h1 {
+  color: #fff;
+  font-size: 24px; /* bahagyang pinalaki para balance sa logo */
+  font-weight: 600;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 17px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #a8e0ff;
+}
+
+
+
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+
+
+.nav-item:hover {
+  color: #a8e0ff;
+}
+
+
+
+.nav-item {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s;
+}
+
+
+
+.nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #a8e0ff;
+  transition: width 0.3s;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+/* Active (underlined) link */
+.nav-item.active::after {
+  width: 100%;
+}
+
+/* Icon beside text */
+.nav-icon {
+  width: 48px;
+  height: 48px;
+  filter: invert(100%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+    }
+
+    footer h3 {
+      color: #ffffff;
+      margin: 15px 0 10px 0;
+      font-weight: 600;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+      text-decoration: none;
+      gap: 5px;
+    }
+
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+    }
+
+
+
+/* ================= RESPONSIVE FIX ONLY ================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+
+  nav.navbar {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+  }
+
+  .nav-center {
+    position: static;
+    transform: none;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Phones */
+@media (max-width: 576px) {
+ nav.navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-left {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .nav-left .logo {
+    margin: 0 auto;
+    display: block;
+  }
+
+  .nav-center {
+    position: static;
+    transform: none;
+    margin-bottom: 10px;
+  }
+
+  .nav-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Navbar */
+  .nav-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-item {
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .nav-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Login panels */
+  body > div[style*="display:flex"][style*="justify-content:center"] > div {
+    flex-direction: column !important;
+    padding: 25px 20px !important;
+    gap: 25px !important;
+  }
+
+  /* Each panel */
+  body > div > div > div[style*="width:340px"] {
+    width: 100% !important;
+  }
+
+  /* Images scale */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Text scaling */
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+}
+
+
+
+
+
+
+
+</style>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+  </div>
+
+  <div class="nav-center">
+    <h1>Online Car Rental System</h1>
+  </div>
+
+  <div class="nav-right nav-links">
+   <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+      <img src="{% static 'images/home.png' %}" alt="Home" class="nav-icon"> Home
+    </a>
+
+     <a href="/about/" class="nav-item {% if request.path == '/about/' %}active{% endif %}">
+      <img src="{% static 'images/about.png' %}" alt="About" class="nav-icon"> About
+    </a>
+    <a href="/contact/" class="nav-item {% if request.path == '/contact/' %}active{% endif %}">
+      <img src="{% static 'images/contact.png' %}" alt="Contact" class="nav-icon"> Contact
+    </a>
+   
+  </div>
+</nav>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+  #user-icon {
+    width: 160px !important;
+    height: 160px !important;
+    margin-bottom: 25px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+
+<div style="text-align:center; margin-top:30px;">
+  <h2 style="font-weight:bold;">Administrator Portal</h2>
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; margin-top:30px;">
+  <div style="display:flex; gap:40px; background-color:rgba(255,255,255,0.1); padding:50px 70px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.3);">
+
+    <!-- Left Panel -->
+    <div style="background-color:rgba(255,255,255,0.08); border-radius:10px; padding:35px 40px; width:340px; text-align:center;">
+      <img id="user-icon" src="{% static 'images/user_icon.png' %}" alt="User Icon">
+      <h3 style="font-weight:700; margin-bottom:25px;">Sign in</h3>
+
+      <form action="/car_dealer_portal/auth/" method="POST" style="text-align:left;">
+        {% csrf_token %}
+
+        <label style="font-size:12px; font-weight:600;">USERNAME</label>
+<div style="position:relative; width:100%; margin-bottom:20px;">
+  <input 
+    type="text" 
+    name="username" 
+    placeholder="Enter Your Username" 
+    required
+    style="width:100%; padding:10px 10px 10px 38px; border:none; border-radius:5px; box-sizing:border-box;"
+  >
+  <!-- Person Icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"
+       style="position:absolute; left:10px; top:50%; transform:translateY(-50%);
+              width:18px; height:18px; fill:#444;">
+    <path d="M463 448.2C440.9 409.8 399.4 384 352 384L288 384C240.6 384 199.1 409.8 177 448.2C212.2 487.4 263.2 512 320 512C376.8 512 427.8 487.3 463 448.2zM64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320zM320 336C359.8 336 392 303.8 392 264C392 224.2 359.8 192 320 192C280.2 192 248 224.2 248 264C248 303.8 280.2 336 320 336z"/>
+  </svg>
+</div>
+
+
+        <!-- PASSWORD -->
+<label style="font-size:12px; font-weight:600;">PASSWORD</label>
+<div style="position:relative; width:100%; margin-bottom:35px;">
+  <input 
+    type="password" 
+    id="password" 
+    name="password" 
+    placeholder="Enter Your Password" 
+    required
+    style="width:100%; padding:10px 44px 10px 38px; border:none; border-radius:5px; box-sizing:border-box;"
+  >
+
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"
+       style="position:absolute; left:10px; top:50%; transform:translateY(-50%);
+              width:18px; height:18px; fill:#444;">
+    <path d="M256 160L256 224L384 224L384 160C384 124.7 355.3 96 320 96C284.7 96 256 124.7 256 160zM192 224L192 160C192 89.3 249.3 32 320 32C390.7 32 448 89.3 448 160L448 224C483.3 224 512 252.7 512 288L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 288C128 252.7 156.7 224 192 224z"/>
+  </svg>
+          
+          
+          
+          
+                 <svg id="togglePassword" xmlns="http://www.w3.org/2000/svg" fill="none" 
+               viewBox="0 0 24 24" stroke="currentColor"
+               style="position:absolute; right:12px; top:50%; transform:translateY(-50%); 
+                      width:22px; height:22px; cursor:pointer; color:#444;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                     -1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+
+          
+
+
+        
+        </div>
+
+        <button type="submit" 
+          style="width:100%; background-color:#283e51; color:white; border:none; padding:12px; border-radius:5px; font-weight:700; font-size:14px;">
+          LOGIN
+        </button>
+      </form>
+    </div>
+
+    <!-- Right Panel -->
+    <div style="background-color:rgba(255,255,255,0.08); border-radius:10px; padding:35px 40px; width:340px; text-align:center;">
+      <img src="{% static 'images/logo.png' %}" alt="Car Rental Logo" 
+           style="width:200px; height:auto; margin-bottom:25px;">
+      <p style="font-size:13px; color:#e5e5e5; margin-bottom:30px; line-height:1.6;">
+        Hello Admin! Ready to manage your vehicles and track your rentals? 
+List your cars, monitor bookings, and watch your earnings grow!.
+      </p>
+
+      
+        
+      <a href="/" 
+         style="display:inline-block; background-color:#283e51; color:white; padding:10px 20px; border-radius:5px; font-weight:600; text-decoration:none; margin-top:12px;">
+        Back To HomePage
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Password toggle script -->
+<script>
+  (function(){
+    const passwordField = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    let isVisible = false;
+
+    togglePassword.addEventListener("click", () => {
+      isVisible = !isVisible;
+      passwordField.type = isVisible ? "text" : "password";
+
+      togglePassword.innerHTML = isVisible
+        ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7
+               a9.956 9.956 0 012.162-3.368m3.16-2.472A9.953 9.953 0 0112 5c4.478 0 
+               8.268 2.943 9.542 7a9.956 9.956 0 01-1.948 3.175M15 12a3 3 0 11-6 0 
+               3 3 0 016 0zM3 3l18 18" />`
+        : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 
+               9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    });
+  })();
+</script>
+
+<!-- Footer -->
+  <footer>
+    <h3>Message Us Now!!!</h3>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/sobchan_9/" target="_blank">
+        <img src="{% static 'images/instagram.png' %}" alt="Instagram">
+        Instagram
+      </a>
+      <a href="mailto:sobchanpro11@hotmail.com">
+        <img src="{% static 'images/outlook.png' %}" alt="Email">
+        Email
+      </a>
+      <a href="https://discord.com/channels/@me/muji_89" target="_blank">
+        <img src="{% static 'images/discord.png' %}" alt="Discord">
+        Discord
+      </a>
+    </div>
+    <p style="margin-top:20px;">&copy; 2025 All Rights Reserved. Owned by CJ Archivido</p>
+  </footer>
+
+
+
+
+{% endblock %}

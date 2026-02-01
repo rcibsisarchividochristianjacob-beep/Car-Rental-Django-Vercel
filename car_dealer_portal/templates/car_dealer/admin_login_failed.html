@@ -1,0 +1,118 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* 1. Global Layout - Pareho sa Login */
+    html, body {
+        margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+        height: 100%; color: white;
+        background: 
+            linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+            url("{% static 'images/background.png' %}") no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    /* 2. Navbar Styling para maging consistent */
+    nav.navbar {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 18px 50px; background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* 3. Main Container */
+    .failed-wrapper {
+        display: flex; justify-content: center; align-items: center;
+        margin-top: 50px; padding: 20px;
+    }
+
+    /* 4. The Double Panel Box */
+    .error-container {
+        display: flex; gap: 40px; 
+        background-color: rgba(255, 255, 255, 0.1); 
+        padding: 60px 70px; border-radius: 15px; 
+        box-shadow: 0 0 25px rgba(0,0,0,0.4);
+        max-width: 900px;
+        flex-wrap: wrap; /* Para sa mobile responsiveness */
+    }
+
+    .panel {
+        background-color: rgba(255, 255, 255, 0.08); 
+        border-radius: 10px; padding: 40px; 
+        width: 340px; text-align: center;
+    }
+
+    .error-title {
+        color: #ff6b6b; /* Reddish color for error */
+        font-weight: 700; margin-bottom: 20px;
+        font-size: 24px;
+    }
+
+    .btn-retry {
+        display: block; width: 100%;
+        background-color: #283e51; color: white;
+        padding: 15px; border-radius: 5px;
+        font-weight: 700; text-decoration: none;
+        margin-top: 20px; transition: 0.3s;
+    }
+
+    .btn-retry:hover { background-color: #1a252f; transform: scale(1.02); }
+
+    /* Footer Styles */
+    footer { text-align: center; padding: 40px; color: #ccc; }
+    .social-icons { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
+    .social-icons img { width: 35px; height: 35px; }
+</style>
+
+<nav class="navbar">
+    <div class="nav-left">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 85px;">
+    </div>
+    <div class="nav-center">
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0;">Online Car Rental System</h1>
+    </div>
+    <div style="width: 85px;"></div> </nav>
+
+<div class="failed-wrapper">
+    <div class="error-container">
+        
+        <div class="panel">
+            <img src="{% static 'images/user_icon.png' %}" alt="Error Icon" 
+                 style="width: 140px; height: 140px; margin-bottom: 20px; opacity: 0.6; filter: grayscale(100%);">
+            
+            <h2 class="error-title">LOGIN FAILED</h2>
+            <p style="font-size: 15px; line-height: 1.6; margin-bottom: 25px;">
+                Sorry, the credentials you provided do not match our records. 
+                Please check your username and password.
+            </p>
+
+            <a href="/car_dealer_portal/login/" class="btn-retry">
+                TRY AGAIN
+            </a>
+        </div>
+
+        <div class="panel">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" 
+                 style="width: 180px; height: auto; margin-bottom: 25px;">
+            <h3 style="font-weight: 700;">Administrator Portal</h3>
+            <p style="font-size: 13px; color: #e5e5e5; margin-bottom: 30px; line-height: 1.6;">
+                Access restricted. Only authorized administrators can manage vehicles, monitor bookings, and track rental earnings.
+            </p>
+            <a href="/" style="color: #a8e0ff; text-decoration: none; font-size: 14px; font-weight: 600;">
+                ← Back to Home
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <h3>Message Us Now!!!</h3>
+    <div class="social-icons">
+        <a href="#"><img src="{% static 'images/instagram.png' %}" alt="IG"></a>
+        <a href="#"><img src="{% static 'images/outlook.png' %}" alt="Email"></a>
+        <a href="#"><img src="{% static 'images/discord.png' %}" alt="Discord"></a>
+    </div>
+    <p style="margin-top:20px;">&copy; 2025 All Rights Reserved. Owned by CJ Archivido</p>
+</footer>
+{% endblock %}

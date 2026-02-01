@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'images/crs.png' %}">
+    <title>Manage Rentals | {{ user.username|title }}</title>
+</head>
+<body>
+
+{% block content %} 
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #c0f8ff, #ddf5fc);
+    margin: 0;
+  }
+
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    margin-left: 230px;
+    transition: margin-left 0.3s ease;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 230px;
+    background: #ddf5fc;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.hide { transform: translateX(-100%); }
+
+  .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    background: #000000;
+    color: #fff;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 30px;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  /* Table styling */
+  .order-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 20px;
+  }
+
+  .order-table th {
+    background-color: #000000;
+    color: white;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .order-table td {
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    color: #444;
+  }
+
+  .order-table tr td:first-child { border-left: 1px solid #eee; border-radius: 10px 0 0 10px; }
+  .order-table tr td:last-child { border-right: 1px solid #eee; border-radius: 0 10px 10px 0; }
+
+  .status-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .bg-safe { background: #dcfce7; color: #166534; }
+  .bg-warning { background: #fef9c3; color: #854d0e; }
+  .bg-danger { background: #fee2e2; color: #991b1b; }
+
+  .proof-img {
+    width: 60px; height: 60px; object-fit: cover;
+    border-radius: 5px; border: 2px solid #e0e7ff;
+    cursor: zoom-in; transition: 0.3s;
+  }
+  .proof-img:hover { transform: scale(1.1); }
+
+  .w3-btn {
+    padding: 10px 18px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; transition: 0.3s;
+  }
+  .w3-indigo { background-color: #16a34a; color: #fff; }
+  .w3-indigo:hover { background-color: #15803d; }
+
+  /* 🆕 KINOPYA NA LOGOUT/CONFIRM MODAL UI */
+  #customConfirmModal, #statusModal { 
+    display: none; position: fixed; z-index: 9999; 
+    left: 0; top: 0; width: 100%; height: 100%; 
+    background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); 
+  }
+  .modal-content-ui { 
+    background-color: #fff; margin: 15% auto; padding: 25px; 
+    border-radius: 12px; width: 90%; max-width: 400px; 
+    color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; 
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <div class="sidebar-logo" style="text-align:center; padding: 10px;">
+      <img src="{% static 'images/adminlogo.png' %}" alt="Logo" style="width:80px; height:auto;">
+    </div>
+    <a href="/car_dealer_portal/home_page/" class="nav-link">🏠 Dashboard</a>
+    <a href="/car_dealer_portal/manage_vehicles/" class="nav-link">🚘 Vehicles</a>
+    <a href="/car_dealer_portal/order_list/" class="nav-link active">📦 Rentals</a>
+    <a href="/car_dealer_portal/history/" class="nav-link">💰 Income</a>
+    
+    <a href="javascript:void(0)" class="nav-link" onclick="askConfirm('logout')">➜ Logout</a>
+    
+    <div style="margin-top:auto; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06);">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#e0e7ff; color:#2563eb; font-weight:700;">👤</div>
+        <div>
+          <div style="font-size:12px; color:#777; margin:0;">Welcome</div>
+          <div style="font-size:14px; font-weight:600; color:#333; margin-top:2px;">{{ user.username|title }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <div id="hamburger" style="display:flex; flex-direction:column; gap:4px; cursor:pointer;">
+        <div style="width:25px; height:3px; background:#333; border-radius:2px;"></div>
+        <div style="width:25px; height:3px; background:#333; border-radius:2px;"></div>
+        <div style="width:25px; height:3px; background:#333; border-radius:2px;"></div>
+      </div>
+    </div>
+
+    <div style="width:100%;">
+      <h3 style="font-weight:bold; margin-bottom:20px; text-align:center;">Vehicles Rental List</h3>
+      
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>Customer & Address</th>
+            <th>Car Details</th>
+            <th>Rental Period & Status</th>
+            <th>Payment Proof</th>
+            <th>Total Rent</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in order_list %}
+          <tr>
+            <td style="text-align: left;">
+              <strong>{{ order.customer_name }}</strong><br>
+              <small style="color: #666;">📍 {{ order.customer_address }}</small><br>
+              <div style="margin-top: 5px; padding: 4px 8px; background-color: #fff4e5; border-left: 3px solid #ffa117; border-radius: 4px;">
+                <small style="font-size: 11px; font-weight: bold; color: #664d03; display: block;">DESTINATION/NOTE:</small>
+                <span style="font-size: 12px; color: #333;">{{ order.description|default:"No description provided" }}</span>
+              </div>
+            </td>
+            <td>
+              {{ order.vehicle.car_name }}<br>
+              <span style="font-size: 11px; color: #888;">Color: {{ order.vehicle.color }}</span>
+            </td>
+            <td>
+              <small>From: {{ order.rental_date }}<br>To: {{ order.return_date }}</small><br>
+              {% if order.remaining_days > 0 %}
+                <div class="status-badge bg-safe">{{ order.remaining_days }} Days Remaining</div>
+              {% elif order.remaining_days == 0 %}
+                <div class="status-badge bg-warning">Due Today</div>
+              {% else %}
+                <div class="status-badge bg-danger">OVERDUE</div><br>
+                <small style="color: #b91c1c; font-weight: bold;">Penalty: ₱{{ order.penalty }}</small>
+              {% endif %}
+            </td>
+            <td>
+              {% if order.payment_proof %}
+                <a href="{{ order.payment_proof.url }}" target="_blank">
+                  <img src="{{ order.payment_proof.url }}" class="proof-img" title="Click to enlarge">
+                </a>
+              {% else %}
+                <span style="color:red; font-size: 11px;">No Receipt</span>
+              {% endif %}
+            </td>
+            <td style="font-weight: bold; color: #16a34a;">₱{{ order.rent }}</td>
+            <td>
+              <button class="w3-btn w3-indigo" onclick="askConfirm('complete', '{{ order.id }}')">Complete</button>
+              <form id="completeForm{{ order.id }}" action="/car_dealer_portal/complete/" method="post" style="display:none;">
+                  {% csrf_token %}
+                  <input type="hidden" name="id" value="{{ order.id }}">
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" style="padding: 40px; color: #888;">No active orders to process.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="customConfirmModal">
+    <div class="modal-content-ui">
+        <h4 id="confirmTitle" style="font-weight:bold;">Confirmation</h4>
+        <p id="confirmText"></p>
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button id="confirmYesBtn" style="flex:1; padding:10px; border:none; border-radius:6px; color:white; cursor:pointer; font-weight:bold;">Yes</button>
+            <button id="confirmNoBtn" style="flex:1; padding:10px; border:none; border-radius:6px; background:#94a3b8; color:white; cursor:pointer; font-weight:bold;">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="statusModal">
+    <div class="modal-content-ui">
+        <div style="font-size: 40px;">✔️</div>
+        <h4 style="color:#4CAF50; font-weight:bold;">Success</h4>
+        <p id="statusText"></p>
+    </div>
+</div>
+
+<script>
+    let currentAction = "";
+    let currentId = "";
+
+    function askConfirm(action, id = "") {
+        currentAction = action;
+        currentId = id;
+        const yesBtn = document.getElementById('confirmYesBtn');
+        const confirmText = document.getElementById('confirmText');
+        
+        if(action === 'logout') {
+            confirmText.innerText = "Do you want to Logout?";
+            yesBtn.style.backgroundColor = "#2196F3";
+        } else if(action === 'complete') {
+            confirmText.innerText = "Mark this order as complete? This will return the car to available status.";
+            yesBtn.style.backgroundColor = "#16a34a";
+        }
+        
+        document.getElementById('customConfirmModal').style.display = 'block';
+    }
+
+    document.getElementById('confirmNoBtn').onclick = () => { 
+        document.getElementById('customConfirmModal').style.display = 'none'; 
+    };
+
+    document.getElementById('confirmYesBtn').onclick = function() {
+        document.getElementById('customConfirmModal').style.display = 'none';
+        if(currentAction === 'logout') {
+            window.location.href = "/car_dealer_portal/logout/";
+        } else if(currentAction === 'complete') {
+            document.getElementById('statusText').innerText = "Order marked as complete!";
+            document.getElementById('statusModal').style.display = 'block';
+            setTimeout(() => { 
+                document.getElementById('completeForm' + currentId).submit(); 
+            }, 1500);
+        }
+    };
+
+    // Sidebar Logic (Consistent sa Home)
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const dashboard = document.querySelector('.dashboard-container');
+    
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('hide');
+        dashboard.style.marginLeft = sidebar.classList.contains('hide') ? '0' : '230px';
+    });
+</script>
+
+{% endblock %}
+</body>
+</html>

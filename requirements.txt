@@ -1,0 +1,2 @@
+django==4.0.3
+whitenoise==6.2.0
