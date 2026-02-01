@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'bz1tc7706jpd$&mdq0&x*t&lccmrki+4=i2yfq3r@!ko%+wsd%'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-
+LLOWED_HOSTS = ['carrentaldjango.vercel.app', '.vercel.app', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://*.trycloudflare.com']
 
 INSTALLED_APPS = [
