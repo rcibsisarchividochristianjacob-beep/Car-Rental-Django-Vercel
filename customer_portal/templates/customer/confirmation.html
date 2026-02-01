@@ -1,0 +1,208 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+/* Global Layout matching Home Page */
+html, body {
+margin: 0;
+padding: 0;
+font-family: 'Poppins', sans-serif;
+min-height: 100vh;
+background:
+linear-gradient(to right, rgba(40, 62, 81, 0.7), rgba(72, 85, 99, 0.7)),
+url("{% static 'images/rental.png' %}") no-repeat center center fixed;
+background-size: cover;
+color: white;
+display: flex;
+flex-direction: column;
+}
+
+/* Navbar Styling */
+.custom-nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 18px 40px;
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-nav a {
+color: white;
+text-decoration: none;
+margin-left: 20px;
+font-weight: 500;
+transition: 0.3s;
+}
+
+.custom-nav a:hover { color: #a8e0ff; }
+
+/* Confirmation Card */
+.main-container {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 40px 20px;
+animation: floatIn 0.8s ease-out;
+}
+
+@keyframes floatIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.confirm-card {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(15px);
+padding: 40px;
+border-radius: 24px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+width: 100%;
+max-width: 500px;
+text-align: center;
+}
+
+.confirm-card h2 {
+font-weight: 700;
+margin-bottom: 30px;
+color: #ffffff;
+letter-spacing: 1px;
+text-transform: uppercase;
+font-size: 24px;
+}
+
+/* Rental Details List */
+.details-list {
+text-align: left;
+background: rgba(0, 0, 0, 0.2);
+padding: 20px;
+border-radius: 15px;
+margin-bottom: 30px;
+}
+
+.detail-item {
+display: flex;
+justify-content: space-between;
+margin-bottom: 12px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+padding-bottom: 8px;
+}
+
+.detail-item:last-child { border-bottom: none; }
+
+.label { color: #a8e0ff; font-weight: 500; }
+.value { font-weight: 600; }
+
+.total-cost-box {
+font-size: 22px;
+color: #2ecc71; /* Green for money/success */
+font-weight: 700;
+margin-top: 10px;
+}
+
+/* Action Button */
+.confirm-btn {
+width: 100%;
+background-color: #e63946;
+color: white;
+padding: 16px;
+border: none;
+border-radius: 12px;
+font-weight: 600;
+font-size: 18px;
+cursor: pointer;
+transition: 0.3s all;
+box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+margin-top: 15px;
+}
+
+.confirm-btn:hover {
+background-color: #c92034;
+transform: scale(1.02);
+box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
+}
+
+/* Textarea Styling */
+.dest-input {
+width: 100%;
+height: 80px;
+border-radius: 12px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+background: rgba(0, 0, 0, 0.3);
+color: white;
+padding: 12px;
+font-family: 'Poppins', sans-serif;
+box-sizing: border-box;
+margin-top: 5px;
+resize: none;
+}
+
+.dest-input::placeholder { color: rgba(255,255,255,0.5); font-size: 13px; }
+</style>
+
+<nav class="custom-nav">
+<div style="font-weight: 600;">
+Customer: <span style="color: #a8e0ff;">{{ user.username }}</span>
+</div>
+<div>
+<a href="/customer_portal/home/">Home</a>
+<a href="/customer_portal/search/">Search</a>
+<a href="/customer_portal/manage/">Manage</a>
+<a href="/customer_portal/logout/" style="background: rgba(230, 57, 70, 0.2); padding: 8px 15px; border-radius: 8px;">Logout</a>
+</div>
+</nav>
+
+<div class="main-container">
+<div class="confirm-card">
+<h2>Confirm Your Rental</h2>
+
+<div class="details-list">
+<div class="detail-item">
+<span class="label">🚗 Vehicle:</span>
+<span class="value">{{ vehicle.car_name }}</span>
+</div>
+<div class="detail-item">
+<span class="label">🎨 Color:</span>
+<span class="value">{{ vehicle.color }}</span>
+</div>
+<div class="detail-item">
+<span class="label">🧍 Seats:</span>
+<span class="value">{{ vehicle.capacity }}</span>
+</div>
+<div class="detail-item">
+<span class="label">💰 Price per day:</span>
+<span class="value">₱{{ vehicle.price_per_day }}</span>
+</div>
+<div class="detail-item">
+<span class="label">📅 Total days:</span>
+<span class="value">{{ total_days }}</span>
+</div>
+
+<div class="total-cost-box" style="display: flex; justify-content: space-between; align-items: center; background-color: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; color: white; font-size: 16px; font-weight: 600; margin-top: 20px;">
+<span>Grand Total:</span>
+<span style="color: #2ecc71;">₱{{ total_cost }}</span>
+</div>
+</div>
+
+<form method="POST" action="/customer_portal/confirmed/">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ vehicle.id }}">
+<input type="hidden" name="days" value="{{ total_days }}">
+
+<div style="text-align: left; margin-bottom: 10px;">
+<label style="font-size: 13px; font-weight: 500; color: #a8e0ff;">📍 Destination / Travel Note:</label>
+<textarea name="description" class="dest-input" placeholder="Ex: PAMPANGA TO TARLAC" required></textarea>
+</div>
+
+<button class="confirm-btn" type="submit">Confirm My Rental</button>
+</form>
+<a href="/customer_portal/search/" style="display: block; margin-top: 15px; color: #ccc; text-decoration: none; font-size: 14px;">Cancel and go back</a>
+</div>
+</div>
+
+{% endblock %}
+ 

@@ -1,0 +1,145 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* Copying global styles from Home Page for consistency */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: 
+      linear-gradient(to right, rgba(40, 62, 81, 0.7), rgba(72, 85, 99, 0.7)),
+      url("{% static 'images/rental.png' %}") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Navbar Styling to match Home */
+  .custom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .custom-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+  }
+
+  /* Search Card Container */
+  .main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: floatIn 0.8s ease-out;
+  }
+
+  .search-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+  }
+
+  .search-card h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  .input-group {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #a8e0ff;
+  }
+
+  .custom-input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+  }
+
+  .custom-input:focus {
+    outline: none;
+    border-color: #a8e0ff;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background-color: #e63946; /* Matching the red button from Home */
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .submit-btn:hover {
+    background-color: #c92034;
+    transform: translateY(-2px);
+  }
+</style>
+
+<nav class="custom-nav">
+  <div style="font-weight: bold; font-size: 18px;">
+    Customer: <span style="color: #a8e0ff;">{{user.username}}</span>
+  </div>
+  <div>
+    <a href="/customer_portal/home/">Home</a>
+    <a href="/customer_portal/manage/">Manage</a>
+    <a href="/customer_portal/logout/" style="background: rgba(230, 57, 70, 0.2); padding: 8px 15px; border-radius: 8px;">Logout</a>
+  </div>
+</nav>
+
+<div class="main-container">
+  <div class="search-card">
+    <h2>Find Your Place</h2>
+    <form action="/customer_portal/search_results/" method="post">
+      {% csrf_token %}
+      <div class="input-group">
+        <label for="city">Enter City Name</label>
+        <input type="text" name="city" id="city" class="custom-input" placeholder="e.g. Manila, Quezon City" required>
+      </div>
+      <button type="submit" class="submit-btn">Search Car</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

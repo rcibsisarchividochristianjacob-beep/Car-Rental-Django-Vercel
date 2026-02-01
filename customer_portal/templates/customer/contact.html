@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - Online Car Rental System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      color: white;
+      background:
+        linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+        url("{% static 'images/background.png' %}") no-repeat center center fixed;
+      background-size: cover;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= NAVBAR ================= */
+    nav.navbar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    nav.navbar:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-left .logo {
+      height: 85px;
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-center h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-item {
+      color: #fff;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      color: #a8e0ff;
+    }
+
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #a8e0ff;
+      transition: width 0.3s;
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    .nav-icon {
+      width: 42px;
+      height: 42px;
+      filter: invert(100%);
+    }
+
+    /* ================= CONTACT SECTION ================= */
+    .contact-section {
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .contact-section h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .contact-section p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* ================= CONTACT CARDS ================= */
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      padding: 50px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: 300px;
+      padding: 35px 20px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .contact-card img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 15px;
+    }
+
+    .contact-card h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .contact-card p {
+      font-size: 16px;
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 992px) {
+      .contact-card {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav.navbar {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-center {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .contact-card {
+        width: 90%;
+      }
+
+      .contact-section h2 {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-center h1 {
+        font-size: 20px;
+      }
+
+      .contact-section h2 {
+        font-size: 22px;
+      }
+
+      .contact-section p {
+        font-size: 15px;
+      }
+
+      .contact-card h2 {
+        font-size: 18px;
+      }
+
+      .contact-card p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="{% static 'images/logo.png' %}" class="logo" alt="Logo">
+  </div>
+
+  <div class="nav-center">
+    <h1>Online Car Rental System</h1>
+  </div>
+
+  <div class="nav-links">
+    <a href="/" class="nav-item">
+      <img src="{% static 'images/home.png' %}" class="nav-icon"> Home
+    </a>
+    <a href="/about/" class="nav-item">
+      <img src="{% static 'images/about.png' %}" class="nav-icon"> About
+    </a>
+    <a href="/contact/" class="nav-item">
+      <img src="{% static 'images/contact.png' %}" class="nav-icon"> Contact
+    </a>
+  </div>
+</nav>
+
+<!-- CONTACT TITLE -->
+<section class="contact-section">
+  <h2>Call or Chat for More Clarifications</h2>
+  <p>You can reach us anytime through the platforms below</p>
+</section>
+
+<!-- CONTACT CARDS -->
+<section class="contact-container">
+  <a href="https://discord.com" target="_blank" class="contact-card">
+    <img src="{% static 'images/discord.png' %}">
+    <h2>Discord</h2>
+    <p>Message us directly on Discord for quick replies.</p>
+  </a>
+
+  <a href="mailto:sobchanpro11@hotmail.com" class="contact-card">
+    <img src="{% static 'images/outlook.png' %}">
+    <h2>Email</h2>
+    <p>Send us your inquiries anytime.</p>
+  </a>
+
+  <a href="https://www.instagram.com/sobchan_9/" target="_blank" class="contact-card">
+    <img src="{% static 'images/instagram.png' %}">
+    <h2>Instagram</h2>
+    <p>Follow and message us on Instagram.</p>
+  </a>
+</section>
+
+<footer>
+  <p>&copy; 2026 All Rights Reserved. Owned by CJ Archivido</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - Online Car Rental System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/w3.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      background: 
+        linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+        url("{% static 'images/background.png' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      animation: floatIn 0.8s ease-out;
+      transition: opacity 0.5s ease;
+    }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Navbar --- */
+    nav.navbar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+
+    nav.navbar:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    nav.navbar .nav-left .logo {
+      height: 85px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    nav.navbar .nav-left .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .nav-center h1 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-item {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+      color: #a8e0ff;
+    }
+
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #a8e0ff;
+      transition: width 0.3s;
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    .nav-icon {
+      width: 48px;
+      height: 48px;
+      filter: invert(100%);
+    }
+
+    /* --- About Section --- */
+    .about-section {
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .about-section h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .about-section p {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    /* --- Cards --- */
+    .about-cards {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
+
+    .about-cards .card {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      padding: 30px;
+      border-radius: 12px;
+      width: 260px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-cards .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-cards .card img {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .about-cards .card img:hover {
+      transform: scale(1.1);
+    }
+
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+    }
+
+    footer h3 {
+      color: #ffffff;
+      margin: 15px 0 10px 0;
+      font-weight: 600;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+      text-decoration: none;
+      gap: 5px;
+    }
+
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* ==================== MEDIA QUERIES ==================== */
+    @media (max-width: 992px) {
+      .about-cards {
+        gap: 30px;
+        padding: 30px 15px;
+      }
+
+      .about-cards .card {
+        width: 45%;
+        padding: 25px;
+      }
+
+      .about-section h2 {
+        font-size: 28px;
+      }
+
+      .about-section p {
+        font-size: 16px;
+      }
+
+      .nav-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav.navbar {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      .nav-center {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+
+      .nav-center h1 {
+        font-size: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .about-cards {
+        gap: 20px;
+        padding: 20px 10px;
+      }
+
+      .about-cards .card {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .about-cards .card img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-section h2 {
+        font-size: 20px;
+      }
+
+      .about-section p {
+        font-size: 14px;
+      }
+
+      .about-cards .card h3 {
+        font-size: 16px;
+      }
+
+      .about-cards .card p {
+        font-size: 14px;
+      }
+
+      .nav-item {
+        font-size: 15px;
+      }
+
+      .nav-icon {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    </div>
+
+    <div class="nav-center">
+      <h1>Online Car Rental System</h1>
+    </div>
+
+    <div class="nav-right nav-links">
+      <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+        <img src="{% static 'images/home.png' %}" alt="Home" class="nav-icon"> Home
+      </a>
+      <a href="/about/" class="nav-item {% if request.path == '/about/' %}active{% endif %}">
+        <img src="{% static 'images/about.png' %}" alt="About" class="nav-icon"> About
+      </a>
+      <a href="/contact/" class="nav-item {% if request.path == '/contact/' %}active{% endif %}">
+        <img src="{% static 'images/contact.png' %}" alt="Contact" class="nav-icon"> Contact
+      </a>
+    </div>
+  </nav>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <h2>About Our Service</h2>
+    <p>We provide convenient and reliable car rental services in Bulacan. Choose from a variety of vehicles, book online, and travel safely!</p>
+  </section>
+
+  <!-- About Cards -->
+  <div class="about-cards">
+    <div class="card">
+      <img src="{% static 'images/afford.png' %}" alt="Affordable Rates">
+      <h3>Affordable Rates</h3>
+      <p>Get cars at the best prices in Bulacan!</p>
+    </div>
+    <div class="card">
+      <img src="{% static 'images/variouscars.png' %}" alt="Various Cars">
+      <h3>Various Cars</h3>
+      <p>Choose from Van, SUV, Sedan, and more.</p>
+    </div>
+    <div class="card">
+      <img src="{% static 'images/support.png' %}" alt="24/7 Support">
+      <h3>24/7 Support</h3>
+      <p>We are always ready to assist you.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <h3>Message Us Now!!!</h3>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/sobchan_9/" target="_blank">
+        <img src="{% static 'images/instagram.png' %}" alt="Instagram">
+        Instagram
+      </a>
+      <a href="mailto:sobchanpro11@hotmail.com">
+        <img src="{% static 'images/outlook.png' %}" alt="Email">
+        Email
+      </a>
+      <a href="https://discord.com/channels/@me/muji_89" target="_blank">
+        <img src="{% static 'images/discord.png' %}" alt="Discord">
+        Discord
+      </a>
+    </div>
+    <p style="margin-top:20px;">&copy; 2026 All Rights Reserved. Owned by CJ Archivido</p>
+  </footer>
+
+</body>
+</html>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/697cd26dc28f7e1c39908c99/1jg7pbv4a';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->

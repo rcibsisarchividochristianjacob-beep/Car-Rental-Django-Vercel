@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+
+
+{% load static %}
+{% block content %}
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    background:
+      linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+      url("{% static 'images/rental.png' %}") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Animation */
+  @keyframes floatIn {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  nav, .welcome-section, .search-section, footer {
+    animation: floatIn 0.8s ease-out;
+  }
+
+  /* Navbar */
+  nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 18px 40px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  nav img {
+    height: 68px;
+  }
+
+  nav h1 {
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: #a8e0ff;
+  }
+
+  /* Welcome Section */
+  .welcome-section {
+    text-align: center;
+    padding: 36px 20px 20px 20px;
+    color: #fff;
+  }
+
+  .welcome-section p {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  /* Search Button Section */
+  .search-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+
+  .search-btn {
+    background-color: #e63946;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 16px 38px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+  }
+
+  .search-btn:hover {
+    background-color: #c92034;
+    transform: translateY(-3px);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 25px;
+    color: #ccc;
+    animation: floatIn 0.8s ease-out;
+  }
+
+  footer h3 {
+    color: #ffffff;
+    margin: 15px 0 10px 0;
+    font-weight: 600;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .social-icons a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    gap: 5px;
+  }
+
+  .social-icons img {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 3px rgba(255,255,255,0.4));
+  }
+</style>
+
+<!-- Navbar -->
+<nav>
+  <div>
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+
+  <div style="text-align:center;">
+    <h1>Online Car Rental System</h1>
+  </div>
+
+  <div style="display:flex; gap:18px; align-items:center; justify-content:flex-end;">
+    <a href="/customer_portal/home/">Home</a>
+    <a href="/customer_portal/manage/">Manage</a>
+    <a href="/customer_portal/logout/">Logout</a>
+  </div>
+</nav>
+
+<!-- Welcome -->
+<section class="welcome-section">
+  <p>Welcome Traveller, you shall drive the car of your dreams!</p>
+</section>
+
+<!-- Search for Rental Cars -->
+<section class="search-section">
+  <a href="/customer_portal/search/" class="search-btn">Search for Rental Cars</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <h3>Message Us Now!!!</h3>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/sobchan_9/" target="_blank">
+      <img src="{% static 'images/instagram.png' %}" alt="Instagram">
+      Instagram
+    </a>
+    <a href="mailto:sobchanpro11@hotmail.com">
+      <img src="{% static 'images/outlook.png' %}" alt="Email">
+      Email
+    </a>
+    <a href="https://discord.com/channels/@me/muji_89" target="_blank">
+      <img src="{% static 'images/discord.png' %}" alt="Discord">
+      Discord
+    </a>
+  </div>
+  <p style="margin-top:20px;">&copy; 2026 All Rights Reserved. Owned by CJ Archivido</p>
+</footer>
+
+
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/697cd26dc28f7e1c39908c99/1jg7pbv4a';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
+
+
+{% endblock %}

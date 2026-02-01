@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Status | Online Car Rental</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* KINOPYA MULA SA INDEX.HTML MO */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      background: 
+        linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+        url("{% static 'images/background.png' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    nav.navbar .logo { height: 60px; width: auto; }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 20px;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover { color: #a8e0ff; }
+
+    /* SUCCESS/ERROR CARD AREA */
+    .content-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85); /* Glass effect */
+      color: #333;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 450px;
+      padding: 50px 30px;
+      text-align: center;
+      animation: floatIn 0.6s ease-out;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card img {
+      width: 70px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 { margin-bottom: 15px; font-weight: 600; color: #283e51; }
+    .card p { margin-bottom: 30px; line-height: 1.6; color: #555; }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      font-size: 16px;
+      background: #283e51;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #1a252f;
+      transform: scale(1.05);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ddd;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/customer_portal/login/">Login</a>
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <div class="card">
+      
+      {% if "exists" in message or "error" in message|lower %}
+        <img src="{% static 'images/user.png' %}" alt="Info Icon" style="filter: grayscale(1) opacity(0.5);">
+        <h2>Oops!</h2>
+        <p style="color: #d9534f; font-weight: 600;">{{ message }}</p>
+        <p>It looks like you already have an account with us. Please try logging in instead.</p>
+        <a href="/customer_portal/login/" class="btn">Go to Login</a>
+      {% else %}
+        <img src="{% static 'images/user.png' %}" alt="Success Icon">
+        <h2>Success!</h2>
+        <p>Your registration was successful. You can now access your account and start renting.</p>
+        <a href="/customer_portal/login/" class="btn">Login Now</a>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Online Car Rental System. All Rights Reserved.
+  </footer>
+
+</body>
+</html>

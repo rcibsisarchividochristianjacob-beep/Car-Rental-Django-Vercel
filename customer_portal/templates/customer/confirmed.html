@@ -1,0 +1,150 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  /* Global Layout - EXACTLY THE SAME as confirmation.html */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background:
+      linear-gradient(to right, rgba(40, 62, 81, 0.7), rgba(72, 85, 99, 0.7)),
+      url("{% static 'images/rental.png' %}") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Navbar Styling - EXACT MATCH */
+  .custom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .custom-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  /* Card Container - EXACT MATCH */
+  .main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    animation: floatIn 0.8s ease-out;
+  }
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .confirm-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
+  .confirm-card h2 {
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #2ecc71; /* Green para sa success */
+    text-transform: uppercase;
+    font-size: 24px;
+  }
+  /* Details List - EXACT MATCH */
+  .details-list {
+    text-align: left;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+  }
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+  }
+  .label { color: #a8e0ff; font-weight: 500; }
+  .value { font-weight: 600; }
+  /* Centered Grand Total Box - EXACT MATCH */
+  .total-cost-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 250px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px auto;
+  }
+  /* Button Styling */
+  .manage-btn {
+    display: block;
+    width: 100%;
+    background-color: #2ecc71;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s all;
+    box-sizing: border-box;
+  }
+  .manage-btn:hover {
+    background-color: #27ae60;
+    transform: scale(1.02);
+  }
+</style>
+<nav class="custom-nav">
+  <div style="font-weight: 600;">
+    Customer: <span style="color: #a8e0ff;">{{ user.username }}</span>
+  </div>
+  <div>
+    <a href="/customer_portal/home/">Home</a>
+    <a href="/customer_portal/manage/">Manage</a>
+    <a href="/customer_portal/logout/">Logout</a>
+  </div>
+</nav>
+<div class="main-container">
+  <div class="confirm-card">
+    <h2>✅ Order Confirmed!</h2>
+    <p style="margin-bottom: 20px;">Thank you for renting with us, {{ user.username }}!</p>
+    <div class="details-list">
+      <div class="detail-item">
+        <span class="label">🚗 Car:</span>
+        <span class="value">{{ order.vehicle.car_name }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">📅 Days:</span>
+        <span class="value">{{ order.days }}</span>
+      </div>
+      <div class="total-cost-box">
+        <span>Total Rent:</span>
+        <span style="color: #2ecc71;">₱{{ order.rent }}</span>
+      </div>
+    </div>
+    <a href="/customer_portal/manage/" class="manage-btn">Go to Manage Rentals</a>
+  </div>
+</div>
+{% endblock %}
