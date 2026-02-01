@@ -5,5 +5,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ocrs.settings')
 
 application = get_wsgi_application()
 
-# ITO ANG PINAKAMAHALAGANG LINYA:
+# ITO ANG PINAKAMAHALAGANG LINYA NA NAWAWALA SA LOGS MO
 app = application
