@@ -1,0 +1,400 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Car Rental System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/w3.css' %}">
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      background: 
+        linear-gradient(to right, rgba(40, 62, 81, 0.6), rgba(72, 85, 99, 0.6)),
+        url("{% static 'images/background.png' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 25px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      animation: floatIn 0.8s ease-out;
+    }
+
+    .sub-header {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      padding: 12px;
+      text-align: center;
+      color: #f1f1f1;
+      font-size: 18px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.788);
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      width: 280px;
+      padding: 40px 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #283e51;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #1a252f;
+    }
+
+    nav.navbar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+
+    nav.navbar .nav-left .logo {
+      height: 85px; 
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    nav.navbar .nav-left .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .nav-center h1 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 17px;
+      transition: color 0.3s;
+    }
+
+    .nav-item {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #a8e0ff;
+      transition: width 0.3s;
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    .nav-icon {
+      width: 48px;
+      height: 48px;
+      filter: invert(100%);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ccc;
+    }
+
+    footer h3 {
+      color: #ffffff;
+      margin: 15px 0 10px 0;
+      font-weight: 600;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+      text-decoration: none;
+      gap: 5px;
+    }
+
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* ==================== MEDIA QUERIES ==================== */
+    @media (max-width: 992px) {
+      .card-container {
+        gap: 30px;
+        padding: 30px 15px;
+      }
+
+      .card {
+        width: 45%;
+        padding: 30px 15px;
+      }
+
+      .card img {
+        width: 70px;
+        height: 70px;
+      }
+
+      .nav-center h1 {
+        font-size: 22px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        gap: 20px;
+        padding: 20px 10px;
+      }
+
+      .card {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .card img {
+        width: 60px;
+        height: 60px;
+      }
+
+      nav.navbar {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      .nav-center {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+
+      .nav-center h1 {
+        font-size: 20px;
+      }
+
+      .nav-right.nav-links {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .nav-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .social-icons {
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card h2 {
+        font-size: 18px;
+      }
+
+      .btn {
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+
+      .nav-center h1 {
+        font-size: 18px;
+      }
+
+      .nav-item {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    </div>
+
+    <div class="nav-center">
+      <h1>Online Car Rental System</h1>
+    </div>
+
+    <div class="nav-right nav-links">
+      <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+        <img src="{% static 'images/home.png' %}" alt="Home" class="nav-icon"> Home
+      </a>
+      <a href="/about/" class="nav-item {% if request.path == '/about/' %}active{% endif %}">
+        <img src="{% static 'images/about.png' %}" alt="About" class="nav-icon"> About
+      </a>
+      <a href="/contact/" class="nav-item {% if request.path == '/contact/' %}active{% endif %}">
+        <img src="{% static 'images/contact.png' %}" alt="Contact" class="nav-icon"> Contact
+      </a>
+    </div>
+  </nav>
+
+  <!-- Cards -->
+  <div class="card-container">
+    <!-- Customer Card -->
+    <div class="card">
+      <img src="{% static 'images/user.png' %}" alt="User Logo">
+      <h2>Customer Login</h2>
+      <form action="/customer_portal/login/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn" value="Login as Customer">
+      </form>
+    </div>
+
+    <!-- Admin Card -->
+    <div class="card">
+      <img src="{% static 'images/admin.png' %}" alt="Admin Logo">
+      <h2>Administrator</h2>
+      <form action="/car_dealer_portal/login/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn" value="Login as Admin">
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <h3>Message Us Now!!!</h3>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/sobchan_9/" target="_blank">
+        <img src="{% static 'images/instagram.png' %}" alt="Instagram">
+        Instagram
+      </a>
+      <a href="mailto:sobchanpro11@hotmail.com">
+        <img src="{% static 'images/outlook.png' %}" alt="Email">
+        Email
+      </a>
+      <a href="https://discord.com/channels/@me/muji_89" target="_blank">
+        <img src="{% static 'images/discord.png' %}" alt="Discord">
+        Discord
+      </a>
+    </div>
+    <p style="margin-top:20px;">&copy; 2026 All Rights Reserved. Owned by CJ Archivido</p>
+  </footer>
+
+</body>
+</html>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/697cd26dc28f7e1c39908c99/1jg7pbv4a';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
